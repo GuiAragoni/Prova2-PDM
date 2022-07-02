@@ -54,6 +54,10 @@ public class BDUsuario extends SQLiteOpenHelper {
         return findByID(String.valueOf(new_id));
     }
 
+    public void atualizaUsuario(Usuario u) throws SQLiteException {
+        
+    }
+
     public Usuario findByID(String query_id){
         Usuario qUsuario = null;
         Cursor cursor = db_write.query("tb_usuario", new String[]{"_id", "nome, email, usuario, senha"}, "_id=?", new String[]{query_id}, null, null, null);
