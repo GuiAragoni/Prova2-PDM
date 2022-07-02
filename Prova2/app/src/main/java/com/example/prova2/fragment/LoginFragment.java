@@ -32,6 +32,8 @@ import com.example.prova2.bd.BDUsuario;
 import com.example.prova2.model.Produto;
 import com.example.prova2.model.Usuario;
 
+import java.util.zip.Inflater;
+
 public class LoginFragment extends Fragment implements View.OnClickListener{
     Button btn_nav_registrar;
     Button btn_login;
@@ -43,6 +45,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     BDUsuario bdUsuario;
     BDProduto bdProduto;
 
+    View view;
+
     public LoginFragment() {
     }
 
@@ -53,7 +57,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        view = inflater.inflate(R.layout.fragment_login, container, false);
+        return view;
     }
 
     @Override
@@ -93,28 +98,35 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         if(view.getId() == R.id.btn_popular){
             try{
+                //Verifica se existem produtos cadastrados no banco de dados, se a tabela estiver vazia, ele realiza a ação de popular.
+                //Do contrário, ele desabilita o botão e não insere nenhum produto.
+                if(bdProduto.findAll().isEmpty()){
 
-                Drawable drawableChicked = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.chicken_duplo, null);
-                Bitmap iconChicked = ((BitmapDrawable)drawableChicked).getBitmap();
-                Produto newProdutoChicked = new Produto("0", "Chicken Duplo", "É de dar água na boca!",10.90, 10, iconChicked);
-                bdProduto.Popula(newProdutoChicked);
+                    Drawable drawableChicked = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.chicken_duplo, null);
+                    Bitmap iconChicked = ((BitmapDrawable)drawableChicked).getBitmap();
+                    Produto newProdutoChicked = new Produto("0", "Chicken Duplo", "É de dar água na boca!",10.90, 10, iconChicked);
+                    bdProduto.Popula(newProdutoChicked);
 
-                Drawable drawableMega = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.mega_stacker, null);
-                Bitmap iconMega = ((BitmapDrawable)drawableMega).getBitmap();
-                Produto newProdutoMega = new Produto("0", "Mega Stacker", "Duas deliciosas carnes grelhadas no fogo como churrasco, queijo derretido, bacon e molho Stacker.",39.90, 0, iconMega);
-                bdProduto.Popula(newProdutoMega);
+                    Drawable drawableMega = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.mega_stacker, null);
+                    Bitmap iconMega = ((BitmapDrawable)drawableMega).getBitmap();
+                    Produto newProdutoMega = new Produto("0", "Mega Stacker", "Duas deliciosas carnes grelhadas no fogo como churrasco, queijo derretido, bacon e molho Stacker.",39.90, 0, iconMega);
+                    bdProduto.Popula(newProdutoMega);
 
-                Drawable drawableCheddar = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.cheddar, null);
-                Bitmap iconCheddar = ((BitmapDrawable)drawableCheddar).getBitmap();
-                Produto newProdutoCheddar = new Produto("0", "Cheddar", "Tudo na medida perfeita da sua fome.",19.90, 5, iconCheddar);
-                bdProduto.Popula(newProdutoCheddar);
+                    Drawable drawableCheddar = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.cheddar, null);
+                    Bitmap iconCheddar = ((BitmapDrawable)drawableCheddar).getBitmap();
+                    Produto newProdutoCheddar = new Produto("0", "Cheddar", "Tudo na medida perfeita da sua fome.",19.90, 5, iconCheddar);
+                    bdProduto.Popula(newProdutoCheddar);
 
-                Drawable drawableRodeio = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.rodeio, null);
-                Bitmap iconRodeio = ((BitmapDrawable)drawableRodeio).getBitmap();
-                Produto newProdutoRodeio = new Produto("0", "Rodeio", "Hambúrguer grelhado no fogo como churrasco, queijo derretido, onion rings e molho barbecue.",19.90, 0, iconRodeio);
-                bdProduto.Popula(newProdutoRodeio);
+                    Drawable drawableRodeio = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.rodeio, null);
+                    Bitmap iconRodeio = ((BitmapDrawable)drawableRodeio).getBitmap();
+                    Produto newProdutoRodeio = new Produto("0", "Rodeio", "Hambúrguer grelhado no fogo como churrasco, queijo derretido, onion rings e molho barbecue.",19.90, 0, iconRodeio);
+                    bdProduto.Popula(newProdutoRodeio);
 
-                Toast.makeText(getContext(), "Produtos criados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Produtos criados", Toast.LENGTH_SHORT).show();
+                } else{
+                    btn_popular.setClickable(false); //Deixa o botão "não clicável" - desabilitado
+                    Toast.makeText(getContext(), "POPULADO!", Toast.LENGTH_SHORT).show();
+                }
             }catch(SQLiteException err){
                 Log.e("ERROPOPULAR", err.getMessage());
             }
