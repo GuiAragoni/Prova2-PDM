@@ -24,6 +24,11 @@ public class EdicaoFragment extends Fragment implements View.OnClickListener {
     String idUsuario;
     Usuario u;
     Button btSalvar;
+    EditText txt_nome;
+    EditText txt_email;
+    EditText txt_nome_usuario;
+    EditText txt_senha;
+    EditText txt_confirmar_senha;
 
     public EdicaoFragment() {
         // Required empty public constructor
@@ -55,11 +60,11 @@ public class EdicaoFragment extends Fragment implements View.OnClickListener {
             u = bdUsuario.findByID(idUsuario);
 
             btSalvar = view.findViewById(R.id.btn_registrar_edicao);
-            EditText txt_nome = view.findViewById(R.id.txt_nome_edicao);
-            EditText txt_email = view.findViewById(R.id.txt_email_edicao);
-            EditText txt_nome_usuario = view.findViewById(R.id.txt_nome_usuario_edicao);
-            EditText txt_senha = view.findViewById(R.id.txt_login_senha_edicao);
-            EditText txt_confirmar_senha = view.findViewById(R.id.txt_confirmar_senha_edicao);
+            txt_nome = view.findViewById(R.id.txt_nome_edicao);
+            txt_email = view.findViewById(R.id.txt_email_edicao);
+            txt_nome_usuario = view.findViewById(R.id.txt_nome_usuario_edicao);
+            txt_senha = view.findViewById(R.id.txt_login_senha_edicao);
+            txt_confirmar_senha = view.findViewById(R.id.txt_confirmar_senha_edicao);
 
             txt_nome.setText(u.getNome());
             txt_email.setText(u.getEmail());
@@ -74,7 +79,13 @@ public class EdicaoFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_registrar_edicao:
                 bdUsuario = BDUsuario.getInstance(getContext());
-                bdUsuario.
+
+                u.setNome(txt_nome.getText().toString());
+                u.setEmail(txt_email.getText().toString());
+                u.setUsuario(txt_nome_usuario.getText().toString());
+                u.setSenha(txt_senha.getText().toString());
+
+                bdUsuario.atualizaUsuario(u);
                 break;
         }
     }
