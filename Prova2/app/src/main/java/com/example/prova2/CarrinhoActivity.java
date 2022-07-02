@@ -129,10 +129,13 @@ public class CarrinhoActivity extends AppCompatActivity implements View.OnClickL
 
         for (int i = 0; i < carrinhos.size(); i++) {
             Produto produto = bdProduto.findByID(carrinhos.get(i).getIdProduto());
+            double desconto = produto.getDesconto();
 
             Integer quantidade = carrinhos.get(i).getQuantidade();
             Double preco = produto.getPreco();
-
+            if (desconto != 0){
+                preco = preco - (preco * (desconto/100));
+            }
             valorTotal += preco*quantidade;
         }
 

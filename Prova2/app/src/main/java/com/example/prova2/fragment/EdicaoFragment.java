@@ -19,7 +19,7 @@ import com.example.prova2.model.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EdicaoFragment#newInstance} factory method to
+ * Use the {@link EdicaoFragment factory method to
  * create an instance of this fragment.
  */
 public class EdicaoFragment extends Fragment {
@@ -58,7 +58,7 @@ public class EdicaoFragment extends Fragment {
             u = bdUsuario.findByID(idUsuario);
 
             EditText txt_nome_home = view.findViewById(R.id.txt_nome_edicao);
-            EditText txt
+            //EditText txt
             txt_nome_home.setText(u.getNome());
 
         }
