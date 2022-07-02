@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.prova2.Home;
 import com.example.prova2.MainActivity;
@@ -45,9 +46,6 @@ public class EdicaoFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         idUsuario = ((Home) getActivity()).getUserId();
 
-
-
-
         return inflater.inflate(R.layout.fragment_edicao_usuario, container, false);
     }
 
@@ -70,22 +68,55 @@ public class EdicaoFragment extends Fragment implements View.OnClickListener {
             txt_email.setText(u.getEmail());
             txt_nome_usuario.setText(u.getUsuario());
 
+            btSalvar.setOnClickListener(this);
+
         }
 
     }
 
     @Override
     public void onClick(View v) {
+//        if (v.getId() == R.id.btn_registrar_edicao) {
+//            Toast.makeText(getContext(), "Estou tentando salvar a edição", Toast.LENGTH_SHORT).show();
+////            bdUsuario = BDUsuario.getInstance(getContext());
+////
+////            u.setNome(txt_nome.getText().toString());
+////            u.setEmail(txt_email.getText().toString());
+////            u.setUsuario(txt_nome_usuario.getText().toString());
+////            u.setSenha(txt_senha.getText().toString());
+////
+////            bdUsuario.atualizaUsuario(u);
+//        }
         switch (v.getId()) {
             case R.id.btn_registrar_edicao:
-                bdUsuario = BDUsuario.getInstance(getContext());
+                String nome = txt_nome.getText().toString();
+                String email = txt_email.getText().toString();
+                String usuario = txt_nome_usuario.getText().toString();
+                String senha = txt_senha.getText().toString();
+                String confirmar_senha = txt_confirmar_senha.getText().toString();
+                if (!nome.isEmpty() &&
+                    !email.isEmpty() &&
+                    !usuario.isEmpty()
+                ) {
 
-                u.setNome(txt_nome.getText().toString());
-                u.setEmail(txt_email.getText().toString());
-                u.setUsuario(txt_nome_usuario.getText().toString());
-                u.setSenha(txt_senha.getText().toString());
+                    if (!senha.equals(confirmar_senha)) {
+                        Toast.makeText(getContext(), "As senhas não conferem!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        bdUsuario = BDUsuario.getInstance(getContext());
+                        u.setNome(txt_nome.getText().toString());
+                        u.setEmail(txt_email.getText().toString());
+                        u.setUsuario(txt_nome_usuario.getText().toString());
 
-                bdUsuario.atualizaUsuario(u);
+                        if (!senha.isEmpty()) {
+                            u.setSenha(txt_senha.getText().toString());
+                        }
+
+                        bdUsuario.atualizaUsuario(u);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Erro ao atualizar. " +
+                            "\nVerifique os campos e tente novamente", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

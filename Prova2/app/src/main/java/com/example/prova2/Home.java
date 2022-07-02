@@ -88,6 +88,12 @@ public class Home extends AppCompatActivity {
     }
 
     public String getUserId(){
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            idUsuario=null;
+        } else {
+            idUsuario = extras.getString("ID_USUARIO");
+        }
         return idUsuario;
     }
 

@@ -56,11 +56,13 @@ public class BDUsuario extends SQLiteOpenHelper {
 
     public void atualizaUsuario(Usuario u) throws SQLiteException {
         ContentValues cv = new ContentValues();
-        cv.put("_id", u.getId());
         cv.put("nome", u.getNome());
+        cv.put("email", u.getEmail());
         cv.put("usuario", u.getUsuario());
-        cv.put("senha", u.getSenha());
-        db_write.update("tb_usuario", cv, "_ic", new String[]{u.getId()});
+        if (!u.getSenha().isEmpty()) {
+            cv.put("senha", u.getSenha());
+        }
+        db_write.update("tb_usuario", cv, "_id=?", new String[]{u.getId()});
     }
 
     public Usuario findByID(String query_id){
